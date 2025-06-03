@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
        WHERE books.status = "available" 
        ORDER BY books.created_at DESC LIMIT 8`
     );
-    
+
     // Get popular genres
     const [genres] = await connection.execute(
       `SELECT genre, COUNT(*) as count 
@@ -23,13 +23,14 @@ router.get('/', async (req, res) => {
        GROUP BY genre 
        ORDER BY count DESC LIMIT 5`
     );
-    
+
     connection.release();
-    
-    res.render('index', { 
+
+    res.render('index', {
       books,
-      popularGenres: genres.map(g => g.genre),
-      isAuthenticated: !!req.session.user
+      popularGenres: ['Fiction', 'Non-Fiction', 'Science Fiction'],
+      isAuthenticated: !!req.session.user,
+        user: req.session.user // Add this line
     });
   } catch (error) {
     console.error('Home route error:', error);
