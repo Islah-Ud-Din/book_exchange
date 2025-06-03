@@ -2,164 +2,219 @@
 
 <!-- Hero Section -->
 <section class="py-5 bg-primary text-white">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-7">
-                <h1 class="display-4 font-weight-bold mb-4">Share the Joy of Reading</h1>
-                <p class="lead mb-4">
-                    Connect with fellow book lovers to exchange books in your area. Find your next favorite read without spending a dime!
-                </p>
-                <% if (!isAuthenticated) { %>
-                <a href="/register" class="btn btn-light btn-lg mr-3">Join Now</a>
-                <a href="/login" class="btn btn-outline-light btn-lg">Login</a>
-                <% } else { %>
-                <a href="/books/add" class="btn btn-light btn-lg mr-3">Add a Book</a>
-                <a href="/books/search" class="btn btn-outline-light btn-lg">Browse Books</a>
-                <% } %>
-            </div>
-            <div class="col-lg-5 d-none d-lg-block">
-                <img src="/images/banner.jpg" alt="Books" class="img-fluid rounded-circle" />
-            </div>
-        </div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h1 class="display-4 font-weight-bold mb-4">
+          Share the Joy of Reading
+        </h1>
+        <p class="lead mb-4">
+          Connect with fellow book lovers to exchange books in your area. Find
+          your next favorite read without spending a dime!
+        </p>
+        <% if (!isAuthenticated) { %>
+        <a href="/register" class="btn btn-light btn-lg mr-3">Join Now</a>
+        <a href="/login" class="btn btn-outline-light btn-lg">Login</a>
+        <% } else { %>
+        <a href="/books/add" class="btn btn-light btn-lg mr-3">Add a Book</a>
+        <a href="/books/search" class="btn btn-outline-light btn-lg"
+          >Browse Books</a
+        >
+        <% } %>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block">
+        <img
+          src="/images/banner.jpg"
+          alt="Books"
+          class="img-fluid rounded-circle"
+        />
+      </div>
     </div>
+  </div>
 </section>
 
 <% if (user) { %>
 <!-- Search Section -->
 <section class="py-4">
-    <div class="container">
-        <div class="search-box">
-            <form id="search-form">
-                <div class="form-row">
-                    <div class="col-md-5 mb-2 mb-md-0">
-                        <input type="text" class="form-control form-control-lg" id="search-query" placeholder="Search by title or author" />
-                    </div>
-                    <div class="col-md-3 mb-2 mb-md-0">
-                        <select class="form-control form-control-lg" id="search-genre">
-                            <option value="">All Genres</option>
-                            <option value="Fiction">Fiction</option>
-                            <option value="Non-Fiction">Non-Fiction</option>
-                            <option value="Science Fiction">Science Fiction</option>
-                            <option value="Fantasy">Fantasy</option>
-                            <option value="Mystery">Mystery</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Biography">Biography</option>
-                            <option value="History">History</option>
-                            <option value="Self-Help">Self-Help</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-2 mb-md-0">
-                        <input type="text" class="form-control form-control-lg" id="search-location" placeholder="Location (city)" />
-                    </div>
-                    <div class="col-md-1">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
+  <div class="container">
+    <div class="search-box">
+      <form id="search-form">
+        <div class="form-row">
+          <div class="col-md-5 mb-2 mb-md-0">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="search-query"
+              placeholder="Search by title or author"
+            />
+          </div>
+          <div class="col-md-3 mb-2 mb-md-0">
+            <select class="form-control form-control-lg" id="search-genre">
+              <option value="">All Genres</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Non-Fiction">Non-Fiction</option>
+              <option value="Science Fiction">Science Fiction</option>
+              <option value="Fantasy">Fantasy</option>
+              <option value="Mystery">Mystery</option>
+              <option value="Romance">Romance</option>
+              <option value="Biography">Biography</option>
+              <option value="History">History</option>
+              <option value="Self-Help">Self-Help</option>
+            </select>
+          </div>
+          <div class="col-md-3 mb-2 mb-md-0">
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="search-location"
+              placeholder="Location (city)"
+            />
+          </div>
+          <div class="col-md-1">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
         </div>
-
-        <% if (popularGenres && popularGenres.length> 0) { %>
-        <div class="mt-3">
-            <span class="mr-2">Popular genres:</span>
-            <% popularGenres.forEach(genre=> { %>
-            <span class="badge badge-secondary genre-badge mr-2"> <%= genre %> </span>
-            <% }); %>
-        </div>
-        <% } %>
+      </form>
     </div>
+
+    <% if (popularGenres && popularGenres.length> 0) { %>
+    <div class="mt-3">
+      <span class="mr-2">Popular genres:</span>
+      <% popularGenres.forEach(genre=> { %>
+      <span class="badge badge-secondary genre-badge mr-2"> <%= genre %> </span>
+      <% }); %>
+    </div>
+    <% } %>
+  </div>
 </section>
 <!-- Featured Books -->
 <section class="py-5">
-    <div class="container">
-        <h2 class="mb-4">Recently Added Books</h2>
-        <% if (books.length===0) { %>
-        <div class="alert alert-info">No books available at the moment. Check back later or add your own books to share!</div>
-        <% } else { %>
-        <div class="row">
-            <% books.forEach(book=> { %>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card h-100 book-card">
-                    <i class="fas fa-heart"></i>
-                    <a href="/books/<%= book.id %>">
-                        <% if (book.image_url) { %>
-                        <img src="<%= book.image_url %>" class="card-img-top book-img p-3" alt="<%= book.title %>" />
-                        <% } else { %>
-                        <div class="card-img-top book-img d-flex align-items-center justify-content-center p-3">
-                            <i class="fas fa-book-open fa-4x text-muted"></i>
-                        </div>
-                        <% } %>
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="/books/<%= book.id %>" class="text-dark"> <%= book.title %> </a>
-                        </h5>
-                        <p class="card-text text-muted"><%= book.author %></p>
-                        <span class="badge badge-primary"> <%= book.genre %> </span>
-                    </div>
-                    <div class="card-footer bg-white">
-                        <small class="text-muted">
-                            <i class="fas fa-map-marker-alt mr-1"></i>
-                            <%= book.location %>
-                        </small>
-                    </div>
-
-                    <button class="btn btn-primary">BookExhange</button>
-                </div>
-            </div>
-            <% }); %>
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="/books/search" class="btn btn-primary">View All Books</a>
-        </div>
-        <% } %>
+  <div class="container">
+    <h2 class="mb-4">Recently Added Books</h2>
+    <% if (books.length===0) { %>
+    <div class="alert alert-info">
+      No books available at the moment. Check back later or add your own books
+      to share!
     </div>
+    <% } else { %>
+    <div class="row">
+      <% books.forEach(book=> { %>
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 book-card">
+          <div class="position-absolute top-0 end-0 p-2">
+            <a href="/books/<%= book.id %>">
+              <i class="fas fa-heart"></i>
+            </a>
+          </div>
+
+          <a href="/books/<%= book.id %>">
+            <% if (book.image_url) { %>
+            <div
+              class="card-img-top book-img d-flex align-items-center justify-content-center p-3"
+            >
+              <i class="fas fa-book-open fa-4x text-muted"></i>
+            </div>
+            <% } else { %>
+            <div
+              class="card-img-top book-img d-flex align-items-center justify-content-center p-3"
+            >
+              <i class="fas fa-book-open fa-4x text-muted"></i>
+            </div>
+            <% } %>
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="/books/<%= book.id %>" class="text-dark">
+                <%= book.title %>
+              </a>
+            </h5>
+            <p class="card-text text-muted"><%= book.author %></p>
+            <span class="badge badge-primary"> <%= book.genre %> </span>
+          </div>
+
+          <!-- Rating Section -->
+          <div class="mt-2 px-2">
+            <% const rating=book.rating || 0; %> <% for (let i=1; i <=5; i++) {
+            %> <% if (i <=rating) { %>
+            <i class="fas fa-star text-warning"></i>
+            <% } else if (i - 0.5 <=rating) { %>
+            <i class="fas fa-star-half-alt text-warning"></i>
+            <% } else { %>
+            <i class="far fa-star text-warning"></i>
+            <% } %> <% } %>
+            <small class="text-muted ml-1">(<%= rating %> )</small>
+          </div>
+          <div class="card-footer bg-white">
+            <small class="text-muted">
+              <i class="fas fa-map-marker-alt mr-1"></i>
+              <%= book.location %>
+            </small>
+          </div>
+
+          <button class="btn btn-primary">BookExhange</button>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="/books/search" class="btn btn-primary">View All Books</a>
+    </div>
+    <% } %>
+  </div>
 </section>
 <% } %>
 
 <!-- How It Works -->
 <section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5">How It Works</h2>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 border-0">
-                    <div class="card-body text-center">
-                        <div class="mb-3 text-primary">
-                            <i class="fas fa-book fa-3x"></i>
-                        </div>
-                        <h4 class="card-title">1. List Your Books</h4>
-                        <p class="card-text">
-                            Add books you're willing to share to your profile. Include details to help others find them.
-                        </p>
-                    </div>
-                </div>
+  <div class="container">
+    <h2 class="text-center mb-5">How It Works</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0">
+          <div class="card-body text-center">
+            <div class="mb-3 text-primary">
+              <i class="fas fa-book fa-3x"></i>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 border-0">
-                    <div class="card-body text-center">
-                        <div class="mb-3 text-primary">
-                            <i class="fas fa-search fa-3x"></i>
-                        </div>
-                        <h4 class="card-title">2. Find Books</h4>
-                        <p class="card-text">Browse books available in your area or search for specific titles or authors.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 border-0">
-                    <div class="card-body text-center">
-                        <div class="mb-3 text-primary">
-                            <i class="fas fa-exchange-alt fa-3x"></i>
-                        </div>
-                        <h4 class="card-title">3. Exchange</h4>
-                        <p class="card-text">Request books you want and arrange to meet with other members to exchange.</p>
-                    </div>
-                </div>
-            </div>
+            <h4 class="card-title">1. List Your Books</h4>
+            <p class="card-text">
+              Add books you're willing to share to your profile. Include details
+              to help others find them.
+            </p>
+          </div>
         </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0">
+          <div class="card-body text-center">
+            <div class="mb-3 text-primary">
+              <i class="fas fa-search fa-3x"></i>
+            </div>
+            <h4 class="card-title">2. Find Books</h4>
+            <p class="card-text">
+              Browse books available in your area or search for specific titles
+              or authors.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0">
+          <div class="card-body text-center">
+            <div class="mb-3 text-primary">
+              <i class="fas fa-exchange-alt fa-3x"></i>
+            </div>
+            <h4 class="card-title">3. Exchange</h4>
+            <p class="card-text">
+              Request books you want and arrange to meet with other members to
+              exchange.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 <%- include('partials/footer') %>

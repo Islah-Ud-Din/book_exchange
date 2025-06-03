@@ -7,18 +7,32 @@ const Message = require('../models/Message');
 const demoMessages = [
   {
     conversation_id: 1,
-    other_user_name: 'John Doe',
+    other_user_name: 'Islahuddin',
     last_message_date: new Date(),
     last_message_content: 'Hey there! This is a demo message from John.',
     unread_count: 2,
   },
   {
     conversation_id: 2,
-    other_user_name: 'Jane Smith',
+    other_user_name: 'Muaz Rehan',
     last_message_date: new Date(),
-    last_message_content: 'Hello! Just checking in about the project update.',
+    last_message_content: 'Hey Ahmad! I\'m looking for Percy Jackson. Would you like to swap books?.',
     unread_count: 0,
-  }
+  },
+  {
+    conversation_id: 3,
+    other_user_name: 'Ali Raza',
+    last_message_date: new Date(),
+    last_message_content: 'Aoa Ahmad! I\'m looking for Percy Jackson. Would you like to swap books?.',
+    unread_count: 0,
+  },
+  {
+    conversation_id: 4,
+    other_user_name: 'Arham Ali',
+    last_message_date: new Date(),
+    last_message_content: 'Hey Ali! I\'m looking for Percy Jackson. Would you like to swap books?.',
+    unread_count: 0,
+  },
 ];
 
 const demoConversation = {
