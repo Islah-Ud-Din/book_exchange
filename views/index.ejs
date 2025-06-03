@@ -111,11 +111,12 @@
 
           <a href="/books/<%= book.id %>">
             <% if (book.image_url) { %>
-            <div
-              class="card-img-top book-img d-flex align-items-center justify-content-center p-3"
-            >
-              <i class="fas fa-book-open fa-4x text-muted"></i>
-            </div>
+            <img
+              src="/images/<%= book.image_url %>"
+              alt="Books"
+              class="img-fluid card-img-top"
+              style="height: 180px; object-fit: contain; background-color: #f8f9fa;"
+            />
             <% } else { %>
             <div
               class="card-img-top book-img d-flex align-items-center justify-content-center p-3"
