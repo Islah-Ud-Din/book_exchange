@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Your Wishlist</h2>
+                <a href="/wishlist/add" class="btn btn-primary"> <i class="fas fa-plus"></i> Add Book </a>
+            </div>
+
+            <% if (wishlistItems.length === 0) { %>
+            <div class="alert alert-info">Your wishlist is empty. Add books you're looking for!</div>
+            <% } else { %>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Genre</th>
+                                    <th>Date Added</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% wishlistItems.forEach(item => { %>
+                                <tr>
+                                    <td><%= item.title %></td>
+                                    <td><%= item.author || 'N/A' %></td>
+                                    <td><%= item.genre || 'N/A' %></td>
+                                    <td><%= new Date(item.created_at).toLocaleDateString() %></td>
+                                    <td>
+                                        <form action="/wishlist/<%= item.id %>/delete" method="POST" class="d-inline">
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Remove this book from your wishlist?')"
+                                            >
+                                                <i class="fas fa-trash"></i> Remove
+                                            </button>
+                                        </form>
+                                        <a href="/books/search?q=<%= encodeURIComponent(item.title) %>" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-search"></i> Search
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

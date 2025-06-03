@@ -1,0 +1,134 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs" id="requestTabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="incoming-tab" data-toggle="tab" href="#incoming" role="tab">
+            Incoming Requests
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="outgoing-tab" data-toggle="tab" href="#outgoing" role="tab">
+            Outgoing Requests
+          </a>
+        </li>
+      </ul>
+      
+      <div class="tab-content" id="requestTabsContent">
+        <div class="tab-pane fade show active" id="incoming" role="tabpanel">
+          <div class="card mt-3">
+            <div class="card-body">
+              <% if (incomingRequests.length === 0) { %>
+                <div class="alert alert-info">
+                  You don't have any incoming requests.
+                </div>
+              <% } else { %>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Book</th>
+                        <th>Requester</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% incomingRequests.forEach(request => { %>
+                        <tr>
+                          <td>
+                            <a href="/books/<%= request.book_id %>"><%= request.book_title %></a>
+                          </td>
+                          <td><%= request.requester_name %></td>
+                          <td><%= new Date(request.created_at).toLocaleDateString() %></td>
+                          <td>
+                            <span class="badge 
+                              <%= request.status === 'pending' ? 'badge-warning' : '' %>
+                              <%= request.status === 'approved' ? 'badge-success' : '' %>
+                              <%= request.status === 'rejected' ? 'badge-danger' : '' %>">
+                              <%= request.status %>
+                            </span>
+                          </td>
+                          <td>
+                            <a href="/messages/<%= request.conversation_id %>" class="btn btn-sm btn-primary">
+                              <i class="fas fa-envelope"></i> Message
+                            </a>
+                            <% if (request.status === 'pending') { %>
+                              <select class="form-control form-control-sm d-inline-block w-auto request-status" 
+                                      data-id="<%= request.id %>">
+                                <option value="pending" selected>Pending</option>
+                                <option value="approved">Approve</option>
+                                <option value="rejected">Reject</option>
+                              </select>
+                            <% } %>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-pane fade" id="outgoing" role="tabpanel">
+          <div class="card mt-3">
+            <div class="card-body">
+              <% if (outgoingRequests.length === 0) { %>
+                <div class="alert alert-info">
+                  You haven't made any requests yet.
+                </div>
+              <% } else { %>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Book</th>
+                        <th>Owner</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% outgoingRequests.forEach(request => { %>
+                        <tr>
+                          <td>
+                            <a href="/books/<%= request.book_id %>"><%= request.book_title %></a>
+                          </td>
+                          <td><%= request.owner_name %></td>
+                          <td><%= new Date(request.created_at).toLocaleDateString() %></td>
+                          <td>
+                            <span class="badge 
+                              <%= request.status === 'pending' ? 'badge-warning' : '' %>
+                              <%= request.status === 'approved' ? 'badge-success' : '' %>
+                              <%= request.status === 'rejected' ? 'badge-danger' : '' %>">
+                              <%= request.status %>
+                            </span>
+                          </td>
+                          <td>
+                            <% if (request.conversation_id) { %>
+                              <a href="/messages/<%= request.conversation_id %>" class="btn btn-sm btn-primary">
+                                <i class="fas fa-envelope"></i> Message
+                              </a>
+                            <% } %>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

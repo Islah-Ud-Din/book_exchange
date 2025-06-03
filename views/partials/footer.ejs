@@ -1,0 +1,42 @@
+  <!-- Footer -->
+  <footer class="py-4 bg-dark text-white mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <h5>About BookExchange</h5>
+          <p>A platform for book lovers to share and exchange books in their local communities.</p>
+        </div>
+        <div class="col-md-4 mb-4 mb-md-0">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="/" class="text-white">Home</a></li>
+            <li><a href="/books/search" class="text-white">Browse Books</a></li>
+            <% if (!user) { %>
+              <li><a href="/login" class="text-white">Login</a></li>
+              <li><a href="/register" class="text-white">Register</a></li>
+            <% } %>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Contact</h5>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-envelope mr-2"></i> contact@bookexchange.com</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="bg-light">
+      <div class="text-center">
+        <p class="mb-0">&copy; 2023 BookExchange. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery, Popper.js, Bootstrap JS Bundle with Popper -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JS -->
+  <script src="/js/script.js"></script>
+</body>
+</html>

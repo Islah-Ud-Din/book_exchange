@@ -1,0 +1,209 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">Welcome back, <%= user.name %>!</h2>
+
+            <!-- Quick Stats -->
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Books Listed</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= books.length %></div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-book fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Pending Requests</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <%= incomingRequests.filter(r => r.status === 'pending').length %>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-exchange-alt fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Unread Messages</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= user.name %></div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-envelope fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Wishlist Items</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= wishlistItems.length %></div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-heart fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Quick Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap">
+                                <a href="/books/add" class="btn btn-primary m-2"> <i class="fas fa-plus mr-2"></i> Add New Book </a>
+                                <a href="#" class="btn btn-success m-2 add-to-wishlist">
+                                    <i class="fas fa-heart mr-2"></i> Add to Wishlist
+                                </a>
+                                <a href="/books/search" class="btn btn-info m-2"> <i class="fas fa-search mr-2"></i> Browse Books </a>
+                                <a href="/messages" class="btn btn-warning m-2"> <i class="fas fa-envelope mr-2"></i> View Messages </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Books -->
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Your Books</h5>
+                            <a href="/books/add" class="btn btn-light btn-sm"> <i class="fas fa-plus"></i> Add </a>
+                        </div>
+                        <div class="card-body">
+                            <% if (books.length === 0) { %>
+                            <div class="alert alert-info">
+                                You haven't listed any books yet. <a href="/books/add">Add your first book</a> to start sharing!
+                            </div>
+                            <% } else { %>
+                            <div class="list-group">
+                                <% books.slice(0, 5).forEach(book => { %>
+                                <a href="/books/<%= book.id %>" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1"><%= book.title %></h6>
+                                        <small class="badge <%= book.status === 'available' ? 'badge-success' : 'badge-warning' %>">
+                                            <%= book.status %>
+                                        </small>
+                                    </div>
+                                    <p class="mb-1"><%= book.author %></p>
+                                    <small><%= book.genre %></small>
+                                </a>
+                                <% }); %>
+                            </div>
+                            <% if (books.length > 5) { %>
+                            <div class="text-center mt-3">
+                                <a href="/books/search?owner=<%= user.id %>" class="btn btn-sm btn-outline-primary">
+                                    View All (<%= books.length %>)
+                                </a>
+                            </div>
+                            <% } %> <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Requests -->
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Recent Requests</h5>
+                        </div>
+                        <div class="card-body">
+                            <% if (incomingRequests.length === 0 && outgoingRequests.length === 0) { %>
+                            <div class="alert alert-info">You don't have any book requests yet.</div>
+                            <% } else { %>
+                            <ul class="nav nav-tabs" id="requestTabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="incoming-tab" data-toggle="tab" href="#incoming" role="tab">
+                                        Received (<%= incomingRequests.length %>)
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="outgoing-tab" data-toggle="tab" href="#outgoing" role="tab">
+                                        Sent (<%= outgoingRequests.length %>)
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content mt-3" id="requestTabsContent">
+                                <div class="tab-pane fade show active" id="incoming" role="tabpanel">
+                                    <% if (incomingRequests.length === 0) { %>
+                                    <div class="alert alert-info">No incoming requests.</div>
+                                    <% } else { %> <% incomingRequests.slice(0, 3).forEach(request => { %>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <strong><%= request.requester_name %></strong>
+                                            <span
+                                                class="badge <%= request.status === 'pending' ? 'badge-warning' : '' %> <%= request.status === 'approved' ? 'badge-success' : '' %> <%= request.status === 'rejected' ? 'badge-danger' : '' %>"
+                                            >
+                                                <%= request.status %>
+                                            </span>
+                                        </div>
+                                        <p class="mb-1"><%= request.book_title %></p>
+                                        <small class="text-muted"> <%= new Date(request.created_at).toLocaleDateString() %> </small>
+                                    </div>
+                                    <% }); %> <% } %>
+                                </div>
+
+                                <div class="tab-pane fade" id="outgoing" role="tabpanel">
+                                    <% if (outgoingRequests.length === 0) { %>
+                                    <div class="alert alert-info">No outgoing requests.</div>
+                                    <% } else { %> <% outgoingRequests.slice(0, 3).forEach(request => { %>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <strong><%= request.owner_name %></strong>
+                                            <span
+                                                class="badge <%= request.status === 'pending' ? 'badge-warning' : '' %> <%= request.status === 'approved' ? 'badge-success' : '' %> <%= request.status === 'rejected' ? 'badge-danger' : '' %>"
+                                            >
+                                                <%= request.status %>
+                                            </span>
+                                        </div>
+                                        <p class="mb-1"><%= request.book_title %></p>
+                                        <small class="text-muted"> <%= new Date(request.created_at).toLocaleDateString() %> </small>
+                                    </div>
+                                    <% }); %> <% } %>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <a href="/requests" class="btn btn-sm btn-outline-primary"> View All Requests </a>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

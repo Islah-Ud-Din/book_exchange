@@ -1,0 +1,154 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+  <div class="row">
+    <!-- Book Details -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <% if (book.image_url) { %>
+          <img
+            src="<%= book.image_url %>"
+            class="img-fluid mb-3"
+            alt="<%= book.title %>"
+          />
+          <% } %>
+
+          <h2 class="card-title"><%= book.title %></h2>
+          <h6 class="card-subtitle mb-2 text-muted">By <%= book.author %></h6>
+
+          <div class="book-info mt-3">
+            <p><strong>Genre:</strong> <%= book.genre %></p>
+            <p><strong>Condition:</strong> <%= book.book_condition %></p>
+            <p><strong>Location:</strong> <%= book.location %></p>
+            <p><strong>Owner:</strong> <%= book.owner_name %></p>
+          </div>
+
+          <div class="book-description mt-3">
+            <h5>Description</h5>
+            <p><%= book.description %></p>
+          </div>
+
+          <% if (book.purchase_url) { %>
+          <div class="mt-3">
+            <a
+              href="<%= book.purchase_url %>"
+              target="_blank"
+              class="btn btn-info"
+              >Purchase Link</a
+            >
+          </div>
+          <% } %>
+
+          <div class="actions mt-4">
+            <% if (isOwner) { %>
+            <a href="/books/<%= book.id %>/edit" class="btn btn-primary"
+              >Edit Book</a
+            >
+            <form
+              action="/books/<%= book.id %>/delete"
+              method="POST"
+              class="d-inline"
+            >
+              <button
+                type="submit"
+                class="btn btn-danger"
+                onclick="return confirm('Are you sure you want to delete this book?')"
+              >
+                Delete Book
+              </button>
+            </form>
+            <% } else if (user) { %>
+            <form action="/requests/create" method="POST" class="d-inline">
+              <input type="hidden" name="book_id" value="<%= book.id %>" />
+              <button type="submit" class="btn btn-success">
+                Request Book
+              </button>
+            </form>
+            <form action="/wishlist/add" method="POST" class="d-inline">
+              <input type="hidden" name="book_id" value="<%= book.id %>" />
+              <button type="submit" class="btn btn-outline-primary">
+                Add to Wishlist
+              </button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews Section -->
+      <div class="card mt-4">
+        <div class="card-body">
+          <h4>Reviews</h4>
+          <% if (reviews && reviews.length > 0) { %> <% reviews.forEach(review
+          => { %>
+          <div class="review border-bottom py-3">
+            <h6><%= review.reviewer_name %></h6>
+            <div class="rating">
+              <% for(let i = 0; i < review.rating; i++) { %> ⭐ <% } %>
+            </div>
+            <p class="mt-2"><%= review.comment %></p>
+            <small class="text-muted">
+              <%= new Date(review.created_at).toLocaleDateString() %>
+            </small>
+          </div>
+          <% }) %> <% } else { %>
+          <p>No reviews yet.</p>
+          <% } %> <% if (user && !isOwner) { %>
+          <div class="add-review mt-4">
+            <h5>Add a Review</h5>
+            <form action="/reviews/create" method="POST">
+              <input type="hidden" name="book_id" value="<%= book.id %>" />
+              <div class="form-group">
+                <label for="rating">Rating</label>
+                <select class="form-control" id="rating" name="rating" required>
+                  <option value="5">5 Stars</option>
+                  <option value="4">4 Stars</option>
+                  <option value="3">3 Stars</option>
+                  <option value="2">2 Stars</option>
+                  <option value="1">1 Star</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="comment">Comment</label>
+                <textarea
+                  class="form-control"
+                  id="comment"
+                  name="comment"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary mt-3">
+                Submit Review
+              </button>
+            </form>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Contact Information</h5>
+          <p><strong>Owner:</strong> <%= book.owner_name %></p>
+          <p><strong>Location:</strong> <%= book.owner_location %></p>
+
+          <% if (user && !isOwner) { %>
+          <a
+            href="/messages/new?recipient=<%= book.owner_id %>"
+            class="btn btn-primary btn-block"
+          >
+            Message Owner
+          </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

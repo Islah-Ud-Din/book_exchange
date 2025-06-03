@@ -1,0 +1,134 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Add a New Book</h4>
+        </div>
+        <div class="card-body">
+          <form action="/books/add" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <div class="form-group">
+              <label for="title">Book Title *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="author">Author *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="author"
+                name="author"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="genre">Genre</label>
+              <select class="form-control" id="genre" name="genre">
+                <option value="">Select Genre</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Non-Fiction">Non-Fiction</option>
+                <option value="Science Fiction">Science Fiction</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Romance">Romance</option>
+                <option value="Biography">Biography</option>
+                <option value="History">History</option>
+                <option value="Self-Help">Self-Help</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="book_condition">Condition *</label>
+              <select
+                class="form-control"
+                id="book_condition"
+                name="book_condition"
+                required
+              >
+                <option value="">Select Condition</option>
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Very Good">Very Good</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Poor">Poor</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                name="description"
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="image">Book Cover Image</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="image"
+                  name="image"
+                  accept="image/*"
+                />
+                <label class="custom-file-label" for="image">Choose file</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="purchase_url">Purchase Link (optional)</label>
+              <input
+                type="url"
+                class="form-control"
+                id="purchase_url"
+                name="purchase_url"
+                placeholder="https://"
+              />
+            </div>
+            <div class="form-group">
+              <label for="location">Location (City) *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="location"
+                name="location"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Add Book
+            </button>
+            <a
+              href="/dashboard"
+              class="btn btn-outline-secondary btn-block mt-2"
+              >Cancel</a
+            >
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Show file name when selected
+  document
+    .querySelector(".custom-file-input")
+    .addEventListener("change", function (e) {
+      const fileName = e.target.files[0]
+        ? e.target.files[0].name
+        : "Choose file";
+      e.target.nextElementSibling.textContent = fileName;
+    });
+</script>
+
+<%- include('../partials/footer') %>

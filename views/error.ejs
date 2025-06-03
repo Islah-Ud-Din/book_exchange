@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+          <h4 class="mb-0">Error</h4>
+        </div>
+        <div class="card-body text-center">
+          <i class="fas fa-exclamation-triangle fa-5x text-danger mb-4"></i>
+          <h3 class="text-danger">Oops! Something went wrong.</h3>
+          <p class="lead"><%= message %></p>
+          <a href="/" class="btn btn-primary mt-4">Return Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

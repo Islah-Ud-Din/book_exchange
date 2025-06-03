@@ -1,0 +1,55 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Conversation with <%= conversation.otherUser.name %></h4>
+            <a href="/messages" class="btn btn-light btn-sm">Back to Messages</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="message-thread mb-4" style="max-height: 500px; overflow-y: auto;">
+            <% conversation.messages.forEach(msg => { %>
+              <div class="media mb-3 <%= msg.sender_id === user.id ? 'ml-auto' : '' %>" style="max-width: 80%;">
+                <% if (msg.sender_id !== user.id) { %>
+                  <img src="https://ui-avatars.com/api/?name=<%= conversation.otherUser.name %>&background=random" 
+                       class="mr-3 rounded-circle" width="50" alt="<%= conversation.otherUser.name %>">
+                <% } %>
+                <div class="media-body">
+                  <div class="card <%= msg.sender_id === user.id ? 'bg-primary text-white' : 'bg-light' %>">
+                    <div class="card-body p-3">
+                      <p class="mb-0"><%= msg.message %></p>
+                    </div>
+                  </div>
+                  <small class="text-muted d-block <%= msg.sender_id === user.id ? 'text-right' : '' %>">
+                    <%= new Date(msg.created_at).toLocaleString() %>
+                  </small>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+          
+          <form action="/messages/<%= conversation.id %>/send" method="POST">
+            <div class="form-group">
+              <textarea class="form-control" name="message" rows="3" placeholder="Type your message here..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Scroll to bottom of message thread
+  document.addEventListener('DOMContentLoaded', function() {
+    const thread = document.querySelector('.message-thread');
+    thread.scrollTop = thread.scrollHeight;
+  });
+</script>
+
+<%- include('../partials/footer') %>
