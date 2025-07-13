@@ -10,11 +10,9 @@ router.get('/add', async (req, res) => {
         req.flash('error_msg', 'Please log in to add a book');
         return res.redirect('/login');
     }
-
         res.render('books/add', { user: req.session.user });
 
         res.render('wishlist/add', { user: req.session.user });
-
  
 });
 

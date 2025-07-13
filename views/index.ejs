@@ -115,7 +115,11 @@
               src="/images/<%= book.image_url %>"
               alt="Books"
               class="img-fluid card-img-top"
-              style="height: 180px; object-fit: contain; background-color: #f8f9fa;"
+              style="
+                height: 180px;
+                object-fit: contain;
+                background-color: #f8f9fa;
+              "
             />
             <% } else { %>
             <div
@@ -154,7 +158,13 @@
             </small>
           </div>
 
-          <button class="btn btn-primary">BookExhange</button>
+          <button
+            class="btn btn-primary book-exchange-btn"
+            onclick="requestBookExchange(this)"
+            data-book-id="<%= book.id %>"
+          >
+            BookExchange
+          </button>
         </div>
       </div>
       <% }); %>
@@ -218,4 +228,48 @@
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const exchangeButtons = document.querySelectorAll(".book-exchange-btn");
+
+    exchangeButtons.forEach((button) => {
+      button.addEventListener("click", async function () {
+        const bookId = this.getAttribute("data-book-id");
+
+        // You could prompt the user for a message
+        const message = prompt("Please enter a message for the book owner:");
+        if (message === null) return; // User cancelled
+
+        try {
+          const response = await fetch("/requests", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              book_id: bookId,
+              message: message,
+            }),
+          });
+
+          if (response.redirected) {
+            window.location.href = response.url;
+          } else {
+            const result = await response.json();
+            if (result.success) {
+              alert("Request sent successfully!");
+              window.location.reload();
+            } else {
+              alert(result.message || "Failed to send request");
+            }
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("An error occurred while sending the request");
+        }
+      });
+    });
+  });
+</script>
 <%- include('partials/footer') %>

@@ -6,10 +6,9 @@ const Message = require("../models/Message");
 
 // Create request
 router.post("/", async (req, res) => {
-  if (!req.session.user) {
-    req.flash("error_msg", "Please log in to request a book");
-    return res.redirect("/login");
-  }
+ if (!req.session.user) {
+    return res.status(401).json({ success: false, message: "Please log in to request a book" });
+ }
 
   try {
     const { book_id, message } = req.body;
